@@ -1,67 +1,64 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <title>今朝有酒今朝醉的博客 by ZhangXiangQian</title>
 
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-    <title>Blog by ZhangXiangQian</title>
   </head>
-
   <body>
-    <header>
-      <div class="inner">
-        <h1>Blog</h1>
-        <h2>Android 网络加载动态库 .so</h2>
-        <a href="https://github.com/ZhangXiangQian/blog" class="button"><small>View project on</small> GitHub</a>
-      </div>
-    </header>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">今朝有酒今朝醉的博客</h1>
+        <p class="header">Android 网络加载动态库 .so</p>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <p>这几天做项目时遇到一个问题，共17M的Apk，仅两个.so文件就占到14M，就尝试着用户安装完app之后，根据用户需要再加载.so文件，找了之后，方法倒不复杂。</p>
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/ZhangXiangQian/zxq.github.io/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/ZhangXiangQian/zxq.github.io/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/ZhangXiangQian/zxq.github.io">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/ZhangXiangQian">ZhangXiangQian</a></p>
+
+
+      </header>
+      <section>
+        <p>这几天做项目时遇到一个问题，共17M的Apk，仅两个.so文件就占到14M，就尝试着用户安装完app之后，根据用户需要再加载.so文件，找了之后，方法倒不复杂。</p>
 
 <ol>
 <li><p>.so文件的网络下载部分就不展示，</p></li>
 <li><p>.so文件存放路径：一般建议存放在 data/data//路径下，代码如下：</p></li>
 </ol>
 
-<p>复制代码</p>
+<div class="highlight highlight-source-java"><pre>
 
-<pre><code>//getFileDir() :/data/data/&lt;packageName&gt;/file/
-File file2 = new File(getFilesDir(), "libBankeysCoreApi.so");
-try {
-        //fos = openFileOutput("libBankeysCoreApi.so", Context.MODE_PRIVATE); //第一个参数：文件名，不允许包含分隔符“/”，如果文件不存在，android会自动创建
-                                                        //第二个参数：指定操作模式 
-</code></pre>
-
-<p>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　//有网友推荐这样使用，但试过之后会保存，提示 "/data/data//app_" 是个路径的错误
-                                                            //我放弃这个办法 </p>
-
-<pre><code>        fos = new FileOutputStream(file2.getAbsoluteFile());
-        fos.write(b);
-        fos.close();
-        Log.e("TAG", "" + true + ";" + file2.getAbsolutePath());
-    } catch (FileNotFoundException e) {
-        e.printStackTrace();
-        Log.e("TAG", e.getMessage());
-    } catch (IOException e) {
-        e.printStackTrace();
-        Log.e("TAG", e.getMessage());
-    } 
-    System.load(file2.getAbsolutePath());
-</code></pre>
-
-<p>复制代码</p>
+    <span class="pl-c">//getFileDir() :/data/data/&lt;packageName&gt;/file/</span>
+    <span class="pl-smi">File</span> file2 <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">File</span>(getFilesDir(), <span class="pl-s"><span class="pl-pds">"</span>libBankeysCoreApi.so<span class="pl-pds">"</span></span>);
+    <span class="pl-k">try</span> {
+            <span class="pl-c">//fos = openFileOutput("libBankeysCoreApi.so", Context.MODE_PRIVATE); </span>
+            <span class="pl-c">//第一个参数：文件名，不允许包含分隔符“/”，如果文件不存在，android会自动创建</span>
+            <span class="pl-c">//第二个参数：指定操作模式 </span>
+　　　　　   <span class="pl-c">//有网友推荐这样使用，但试过之后会保存，提示 "/data/data/&lt;packageName&gt;/app_" 是个路径的错误</span>
+            <span class="pl-c">//我放弃这个办法 </span>
+            fos <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">FileOutputStream</span>(file2<span class="pl-k">.</span>getAbsoluteFile());
+            fos<span class="pl-k">.</span>write(b);
+            fos<span class="pl-k">.</span>close();
+            <span class="pl-smi">Log</span><span class="pl-k">.</span>e(<span class="pl-s"><span class="pl-pds">"</span>TAG<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span> <span class="pl-k">+</span> <span class="pl-c1">true</span> <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span>;<span class="pl-pds">"</span></span> <span class="pl-k">+</span> file2<span class="pl-k">.</span>getAbsolutePath());
+        } <span class="pl-k">catch</span> (<span class="pl-smi">FileNotFoundException</span> e) {
+            e<span class="pl-k">.</span>printStackTrace();
+            <span class="pl-smi">Log</span><span class="pl-k">.</span>e(<span class="pl-s"><span class="pl-pds">"</span>TAG<span class="pl-pds">"</span></span>, e<span class="pl-k">.</span>getMessage());
+        } <span class="pl-k">catch</span> (<span class="pl-smi">IOException</span> e) {
+            e<span class="pl-k">.</span>printStackTrace();
+            <span class="pl-smi">Log</span><span class="pl-k">.</span>e(<span class="pl-s"><span class="pl-pds">"</span>TAG<span class="pl-pds">"</span></span>, e<span class="pl-k">.</span>getMessage());
+        } 
+        <span class="pl-smi">System</span><span class="pl-k">.</span>load(file2<span class="pl-k">.</span>getAbsolutePath());</pre></div>
 
 <p>另外：lib下库一般会在/data/data//lib/下备份，调用方法做个改动，如下：</p>
 
@@ -78,25 +75,12 @@ try {
 <code>getFilesDir():/data/data/com.example.download.sotest/files</code></p>
 
 <p>上面部分我试过之后是可行的，希望能帮到大家。</p>
-        </section>
-
-        <aside id="sidebar">
-          <a href="https://github.com/ZhangXiangQian/blog/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/ZhangXiangQian/blog/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/ZhangXiangQian/blog"></a> is maintained by <a href="https://github.com/ZhangXiangQian">ZhangXiangQian</a>.</p>
-
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
     </div>
-
-  
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
   </body>
 </html>
